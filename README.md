@@ -34,3 +34,33 @@ python runner.py
 | `GET` | `health` | Service health check |
 | `GET` | `capabilities` | Lists supported tasks (`["person_detection"]`) |
 | `POST` | `infer` | Main inference endpoint. Accepts KAI-C formatted JSON. |
+
+---
+
+## Recording → Image Matching (Response API)
+
+This module introduces a response-based AI workflow that enables matching a provided image against a frame extracted from a video recording at a specified timestamp.
+
+### API Endpoint
+
+| Method | Endpoint | Description |
+|-------|----------|-------------|
+| POST | `/match` | Match an image against a frame from a video recording |
+
+### Request Format
+
+The `/match` endpoint accepts `multipart/form-data` with the following fields:
+
+| Field | Type | Description |
+|------|------|-------------|
+| `recording` | file | Video file (mp4, mov, etc.) |
+| `image` | file | Image to match |
+| `timestamp_ms` | integer | Timestamp inside the video (in milliseconds) |
+
+### Example Request
+
+```bash
+curl -X POST "http://127.0.0.1:8000/match" \
+-F "recording=@VIDEO_TEST.mp4" \
+-F "image=@IMAGE_FIND.jpeg" \
+-F "timestamp_ms=1000"
